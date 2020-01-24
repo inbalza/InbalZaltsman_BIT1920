@@ -1,0 +1,28 @@
+# question 8
+db.bioinf_mongo_examen.find({method_of_admission:["TABLET;BUCCAL, SUBLINGUAL"]},{_id:0,drug:1})
+{ "drug" : "DEMULEN 1/35-28" }
+
+# question 9
+db.bioinf_mongo_examen.find({percentage_of_side_effects:{$gt:8}}).count()
+399
+
+#question 10
+db.bioinf_mongo_examen.aggregate([{$group:{_id:"$company", avgSideEffects:{$avg:"$percentage_of_side_effects"}}},
+{$match:{avgSideEffects:{$gt:10}}},{$sort:{avgSideEffects:-1}}])
+{ "_id" : "Galderma Laboratories, L.P.", "avgSideEffects" : 11.5 }
+{ "_id" : "Watson Pharmaceuticals, Inc.", "avgSideEffects" : 10.65 }
+{ "_id" : "Durata Therapeutics, Inc.", "avgSideEffects" : 10.5 }
+
+#question 11
+
+db.bioinf_mongo_examen.aggregate([{$group:{_id:"$company",num_drugs:{$sum:1},low :{$min:"$percentage_of_side_effects"},
+high: {$max:"$percentage_of_side_effects"}}},{$match:{num_drugs:{$gt:1}}}])
+
+{ "_id" : "Nycomed", "num_drugs" : 5, "low" : 6, "high" : 11 }
+{ "_id" : "Endo Pharmaceuticals Inc.", "num_drugs" : 4, "low" : 5.5, "high" : 8.4 }
+{ "_id" : "Spear Pharmaceuticals", "num_drugs" : 2, "low" : 8.5, "high" : 8.5 }
+{ "_id" : "Turing Pharmaceuticals LLC", "num_drugs" : 5, "low" : 5.7, "high" : 9 }
+{ "_id" : "VersaPharm Incorporated", "num_drugs" : 3, "low" : 5.5, "high" : 8.5 }
+Type "it" for more
+
+
