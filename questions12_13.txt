@@ -1,0 +1,54 @@
+# question 12
+
+curl 'https://rest.ensembl.org/variation/zebrafish/rs499899635?' -H 'Content-type:text'
+
+mappings: 
+  - 
+    allele_string: T/C
+    assembly_name: GRCz11
+    coord_system: chromosome
+    end: 10138412
+    location: 10:10138412-10138412
+    seq_region_name: 10
+    start: 10138412
+    strand: 1
+minor_allele: ~
+most_severe_consequence: intergenic_variant
+name: rs499899635
+source: Variants (including SNPs and indels) imported from dbSNP (mapped to GRCz11)
+synonyms: []
+
+
+
+
+# question 13
+
+First we will retrieve the Ensembl ID by using the lookup option:
+
+curl 'https://rest.ensembl.org/lookup/symbol/mouse/Notch1?' -H 'Content-type:text'
+
+<html><title>EnsEMBL::REST</title><body><pre>--- 
+assembly_name: GRCm38
+biotype: protein_coding
+db_type: core
+description: notch 1 [Source:MGI Symbol;Acc:MGI:97363]
+display_name: Notch1
+end: 26516663
+id: ENSMUSG00000026923
+logic_name: ensembl_havana_gene_mus_musculus
+object_type: Gene
+seq_region_name: 2
+source: ensembl_havana
+species: mouse
+start: 26457903
+strand: -1
+version: 15
+
+We can now use the id ENSMUSG00000026923 to get the first 100 bp of the sequence using the get sequence option:
+
+curl 'https://rest.ensembl.org/sequence/id/ENSMUSG00000026923?type=genomic;end=100' -H 'Content-type:text/x-fasta'
+
+>ENSMUSG00000026923.15 chromosome:GRCm38:2:26516564:26516663:-1
+CTCCTGTGTGTTCAGGCACAAGCTGGAATGCAGACCCCATTGCTCTCCTTGGCTGGAGCA
+ACAACGGAGCTCTGCTTTCTGCCTGCCTCAGTCCTGGCCT
+
