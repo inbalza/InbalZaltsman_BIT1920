@@ -1,0 +1,27 @@
+
+UNF: DB(id,name,date_of_birth,lab_id,lab_name,research_id,research_desc,research_supervisor)
+
+1NF: 
+Research code, description and supervisor are repeating fields, 
+Therefore they will be represented in seperate tables:
+
+members (*id*, name, date_of_birth, lab_id, lab_name)
+research (*id*, name, supervisor)
+
+candidate keys are id in both tables
+
+2NF:
+lab_name is depended on lab_id and not on member id
+therefore will be represented in a seperate table:
+
+members(*id*, name, date_of_birth)
+labs (*id*, name)
+research (*id*, name, supervisor)
+
+keys are id on all tables
+
+3NF: 
+There are no transitive dependencies, all non-prime attributes 
+are depended entirily on the key and not on other non-prime attributes
+Therefore 
+3NF = 2NF
