@@ -1,0 +1,78 @@
+# question 4
+SELECT gene_name, sum(seq_region_end - seq_region_start + 1) as length 
+FROM gene 
+GROUP BY gene_name 
+ORDER BY length DESC 
+LIMIT 2, 1;
+
++-----------+---------+
+| gene_name | length  |
++-----------+---------+
+| PARP1     | 2493040 |
++-----------+---------+
+1 row in set (0.11 sec)
+
+# question 5
+SELECT gene_name, count(et.exon_id) as num_of_exons  
+FROM gene  
+JOIN transcript as tr 
+ON gene.gene_id = tr.gene_id  
+JOIN exon_transcript as et ON tr.transcript_id = et.transcript_id 
+GROUP BY gene_name 
+ORDER BY num_of_exons DESC 
+LIMIT 1;
+
++-----------+--------------+
+| gene_name | num_of_exons |
++-----------+--------------+
+| COL11A2   |         3598 |
++-----------+--------------+
+1 row in set (1.52 sec)
+
+
+# question 6
+SELECT chromosome, count(*) 
+FROM gene 
+WHERE description LIKE '%breast cancer%' 
+GROUP BY chromosome 
+ORDER BY count(*) DESC 
+LIMIT 1;
++------------+----------+
+| chromosome | count(*) |
++------------+----------+
+| 16         |        2 |
++------------+----------+
+1 row in set (0.06 sec)
+
+SELECT count(*) 
+FROM gene 
+JOIN transcript as tr 
+ON gene.gene_id = tr.gene_id
+WHERE chromosome = 16
++----------+
+| count(*) |
++----------+
+|     3636 |
++----------+
+1 row in set, 5348 warnings (0.03 sec)
+
+
+# question 7
+SELECT count(*) FROM exon; 
++----------+
+| count(*) |
++----------+
+|   642590 |
++----------+
+
+SELECT count(*) FROM exon_transcript;
++----------+
+| count(*) |
++----------+
+|  1178393 |
++----------+
+
+The reason for the difference is that exon_transcript is a reference table between exon and transcript
+since they have a many to many relationship therefore the number of rows will be number of connections
+and not number of exons (or transcripts)
+
